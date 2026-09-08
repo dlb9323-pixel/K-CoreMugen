@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Games | K-Core MUGEN</title>
+
+<style>
+body{
+  margin:0;
+  background:#02040c;
+  color:white;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+.kcore-wrap{
+  max-width:1220px;
+  margin:auto;
+  padding:0 24px;
+}
+
+/* NAV */
+.kcore-nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(2,5,15,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(0,174,255,.35);
+}
+
+.kcore-nav-inner{
+  height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.kcore-logo{
+  font-weight:1000;
+  letter-spacing:3px;
+  font-size:24px;
+  line-height:.9;
+  color:white;
+  text-shadow:0 0 18px #009dff;
+}
+
+.kcore-links a{
+  color:#dfeeff;
+  text-decoration:none;
+  margin-left:25px;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.kcore-links a:hover{
+  color:#00c8ff;
+}
+
+/* HERO */
+.games-hero{
+  min-height:470px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(rgba(0,0,0,.2),rgba(2,4,12,.95)),
+    radial-gradient(circle at center,rgba(0,132,255,.42),transparent 42%),
+    url("https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1900&q=80");
+  background-size:cover;
+  background-position:center;
+}
+
+.games-hero::before{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background-image:
+    radial-gradient(circle,rgba(0,220,255,.9) 1px,transparent 2px);
+  background-size:58px 58px;
+  opacity:.18;
+  animation:particles 18s linear infinite;
+}
+
+@keyframes particles{
+  from{transform:translateY(0)}
+  to{transform:translateY(-220px)}
+}
+
+.games-hero-content{
+  position:relative;
+  z-index:2;
+}
+
+.games-hero h1{
+  margin:0;
+  font-size:clamp(64px,10vw,130px);
+  line-height:.85;
+  font-weight:1000;
+  text-transform:uppercase;
+  text-shadow:0 0 30px rgba(0,132,255,.75);
+}
+
+.games-hero h1 span{
+  color:#00b7ff;
+  font-style:italic;
+}
+
+.games-hero p{
+  max-width:700px;
+  margin:22px auto 0;
+  font-size:18px;
+  line-height:1.6;
+  color:#d9e8ff;
+}
+
+/* MAIN SECTION */
+.games-section{
+  padding:70px 0;
+  background:
+    radial-gradient(circle at top,rgba(0,132,255,.14),transparent 35%),
+    #02040c;
+}
+
+.section-title{
+  text-align:center;
+  margin:0 0 35px;
+  font-size:34px;
+  text-transform:uppercase;
+  letter-spacing:3px;
+}
+
+.section-title span{
+  color:#00b7ff;
+}
+
+/* SEARCH + FILTERS */
+.games-tools{
+  margin-bottom:40px;
+}
+
+.games-search{
+  width:100%;
+  padding:17px 20px;
+  border-radius:10px;
+  border:1px solid rgba(0,174,255,.45);
+  background:rgba(5,17,35,.92);
+  color:white;
+  outline:none;
+  font-size:15px;
+  margin-bottom:16px;
+}
+
+.games-filters{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.filter-btn{
+  padding:11px 17px;
+  border-radius:999px;
+  border:1px solid rgba(0,174,255,.45);
+  background:rgba(0,0,0,.25);
+  color:#dceeff;
+  font-weight:900;
+  font-size:12px;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+
+.filter-btn:hover,
+.filter-btn.active{
+  background:linear-gradient(135deg,#005eff,#00c8ff);
+  color:white;
+  box-shadow:0 0 20px rgba(0,174,255,.5);
+}
+
+/* FEATURED */
+.featured-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:28px;
+  margin-bottom:70px;
+}
+
+.featured-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:18px;
+  background:rgba(5,17,35,.9);
+  border:1px solid rgba(0,174,255,.45);
+  box-shadow:0 0 35px rgba(0,132,255,.2);
+  transition:.3s;
+}
+
+.featured-card:hover{
+  transform:translateY(-8px);
+}
+
+.featured-card.pinfall{
+  border-color:rgba(255,45,45,.8);
+  box-shadow:0 0 35px rgba(255,35,35,.28);
+}
+
+.featured-card.comics{
+  border-color:rgba(0,174,255,.8);
+  box-shadow:0 0 35px rgba(0,132,255,.32);
+}
+
+.game-ribbon{
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:5;
+  padding:12px 24px;
+  border-bottom-right-radius:14px;
+  font-size:12px;
+  font-weight:1000;
+  text-transform:uppercase;
+}
+
+.game-ribbon.red{
+  background:linear-gradient(135deg,#b80000,#ff3030);
+}
+
+.game-ribbon.blue{
+  background:linear-gradient(135deg,#005eff,#00c8ff);
+}
+
+.featured-image{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+  display:block;
+}
+
+.featured-body{
+  padding:24px;
+}
+
+.featured-body h2{
+  margin:0 0 10px;
+  font-size:30px;
+  text-transform:uppercase;
+}
+
+.featured-body p{
+  color:#c7d4ee;
+  line-height:1.6;
+  margin-bottom:18px;
+}
+
+.meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px;
+  font-size:12px;
+  color:#aab8d5;
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+
+.game-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.kcore-btn{
+  display:inline-block;
+  text-align:center;
+  padding:14px 18px;
+  border-radius:8px;
+  background:linear-gradient(135deg,#005eff,#00c8ff);
+  color:white;
+  text-decoration:none;
+  text-transform:uppercase;
+  font-weight:1000;
+  font-size:12px;
+  border:1px solid rgba(0,220,255,.9);
+  box-shadow:0 0 20px rgba(0,132,255,.45);
+}
+
+.kcore-btn.secondary{
+  background:rgba(0,0,0,.3);
+}
+
+.kcore-btn.red{
+  background:linear-gradient(135deg,#b80000,#ff3030);
+  border-color:#ff4545;
+  box-shadow:0 0 20px rgba(255,35,35,.5);
+}
+
+/* LIBRARY */
+.games-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+
+.game-card{
+  overflow:hidden;
+  border-radius:14px;
+  background:rgba(5,17,35,.88);
+  border:1px solid rgba(0,174,255,.35);
+  transition:.3s;
+}
+
+.game-card:hover{
+  transform:translateY(-8px);
+  border-color:#00d5ff;
+  box-shadow:0 0 30px rgba(0,174,255,.35);
+}
+
+.game-image{
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  display:block;
+}
+
+.game-body{
+  padding:18px;
+}
+
+.game-tag{
+  color:#00b7ff;
+  font-size:11px;
+  font-weight:900;
+  text-transform:uppercase;
+  margin-bottom:7px;
+}
+
+.game-body h3{
+  margin:0 0 8px;
+  font-size:20px;
+  text-transform:uppercase;
+}
+
+.game-body p{
+  color:#b8c7e8;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.coming-soon{
+  min-height:190px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle,rgba(0,132,255,.18),transparent 50%),
+    #07101f;
+  color:#6d86ad;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-size:13px;
+}
+
+/* FOOTER */
+.kcore-footer{
+  border-top:1px solid rgba(0,174,255,.35);
+  padding:50px 0 24px;
+  background:#030916;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1.4fr;
+  gap:35px;
+}
+
+.footer-grid h3{
+  margin-top:0;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+.footer-grid a{
+  display:block;
+  color:#cbd9ff;
+  text-decoration:none;
+  margin:8px 0;
+}
+
+.footer-bottom{
+  text-align:center;
+  margin-top:30px;
+  color:#8fa3cc;
+  font-size:12px;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+  .kcore-links{
+    display:none;
+  }
+
+  .featured-grid,
+  .games-grid,
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .game-buttons{
+    grid-template-columns:1fr;
+  }
+
+  .featured-image{
+    height:230px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="kcore-nav">
+  <div class="kcore-wrap kcore-nav-inner">
+    <div class="kcore-logo">K-CORE<br>MUGEN</div>
+
+    <div class="kcore-links">
+      <a href="index.html">Home</a>
+      <a href="games.html">Games</a>
+      <a href="characters.html">Characters</a>
+      <a href="stages.html">Stages</a>
+      <a href="screenpacks.html">Screenpacks</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<section class="games-hero">
+  <div class="kcore-wrap games-hero-content">
+    <h1>Games <span>Library</span></h1>
+    <p>
+      Explore full K-Core MUGEN releases, playable demos, experimental builds,
+      and upcoming projects.
+    </p>
+  </div>
+</section>
+
+<section class="games-section">
+  <div class="kcore-wrap">
+
+    <div class="games-tools">
+      <input class="games-search" type="text" placeholder="Search the K-Core game library...">
+
+      <div class="games-filters">
+        <button class="filter-btn active">All Games</button>
+        <button class="filter-btn">Full Releases</button>
+        <button class="filter-btn">Demos</button>
+        <button class="filter-btn">Wrestling</button>
+        <button class="filter-btn">Fighting</button>
+        <button class="filter-btn">Coming Soon</button>
+      </div>
+    </div>
+
+    <h2 class="section-title">Featured <span>Games</span></h2>
+
+    <div class="featured-grid">
+
+      <div class="featured-card pinfall">
+        <div class="game-ribbon red">★ Play Now</div>
+
+        <img
+          class="featured-image"
+          src="./assets/pinfallbrawl.png"
+          alt="Pinfall Brawl">
+
+        <div class="featured-body">
+          <h2>Pinfall Brawl</h2>
+
+          <p>
+            Step into the ring and settle it all in K-Core's MUGEN wrestling
+            experience.
+          </p>
+
+          <div class="meta">
+            <span>🎮 Wrestling / Arcade</span>
+            <span>👥 1–4 Players</span>
+            <span>⭐ 5.0</span>
+            <span>Version 1.0</span>
+          </div>
+
+          <div class="game-buttons">
+            <a class="kcore-btn red" href="https://github.com/dlb9323-pixel/K-CoreMugen/releases/download/v1.0/PINFALL.exe">Download Now</a>
+            <a class="kcore-btn secondary" href="#">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="featured-card comics">
+        <div class="game-ribbon blue">★ New Release </div>
+
+        <img
+          class="featured-image"
+          src="./assets/comicsuniversus.png"
+          alt="Comics Universus Demo">
+
+        <div class="featured-body">
+          <h2>Comics Universus Demo</h2>
+
+          <p>
+            Enter a fast-paced comic crossover fighter and experience the
+            universe collide in the playable demo.
+          </p>
+
+          <div class="meta">
+            <span>🎮 Fighting</span>
+            <span>👥 1–2 Players</span>
+            <span>⭐ 5.0</span>
+            <span>Demo Version</span>
+          </div>
+
+          <div class="game-buttons">
+            <a class="kcore-btn" href="#">Download Demo</a>
+            <a class="kcore-btn secondary" href="#">View Details</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <h2 class="section-title">All <span>Games</span></h2>
+
+    <div class="games-grid">
+
+      <div class="game-card">
+        <img
+          class="game-image"
+          src="./assets/pinfallbrawl.png"
+          alt="Pinfall Brawl">
+
+        <div class="game-body">
+          <div class="game-tag">Full Release</div>
+          <h3>Pinfall Brawl</h3>
+          <p>
+            A K-Core wrestling arcade experience built around fast matches and
+            hard-hitting MUGEN action.
+          </p>
+
+          <a class="kcore-btn red" href="#">View Game</a>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <img
+          class="game-image"
+          src="./assets/comicsuniversus.png"
+          alt="Comics Universus Demo">
+
+        <div class="game-body">
+          <div class="game-tag">Playable Demo</div>
+          <h3>Comics Universus</h3>
+          <p>
+            A comic crossover fighting project featuring characters from
+            across different universes.
+          </p>
+
+          <a class="kcore-btn" href="#">View Demo</a>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="coming-soon">
+          More Games Coming Soon
+        </div>
+
+        <div class="game-body">
+          <div class="game-tag">Coming Soon</div>
+          <h3>Future K-Core Project</h3>
+          <p>
+            New K-Core MUGEN releases and demos will appear here as the
+            collection grows.
+          </p>
+
+          <a class="kcore-btn secondary" href="#">Coming Soon</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<footer class="kcore-footer">
+  <div class="kcore-wrap">
+
+    <div class="footer-grid">
+
+      <div>
+        <div class="kcore-logo">K-CORE<br>MUGEN</div>
+        <p>
+          Your destination for K-Core MUGEN games, characters, stages,
+          screenpacks, and more.
+        </p>
+      </div>
+
+      <div>
+        <h3>Quick Links</h3>
+        <a href="index.html">Home</a>
+        <a href="games.html">Games</a>
+        <a href="characters.html">Characters</a>
+        <a href="stages.html">Stages</a>
+        <a href="screenpacks.html">Screenpacks</a>
+      </div>
+
+      <div>
+        <h3>Join The Community</h3>
+        <p>
+          Stay updated with future K-Core projects, game releases, and demos.
+        </p>
+
+        <a class="kcore-btn" href="#">Join Discord</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 K-Core MUGEN. All rights reserved.
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>
