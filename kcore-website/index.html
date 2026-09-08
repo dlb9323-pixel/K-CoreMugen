@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-Core MUGEN</title>
+</head>
+<body>
+<div class="kcore-v3">
+<style>
+.kcore-v3{
+  margin:0;
+  background:#02040c;
+  color:white;
+  font-family:Arial,Helvetica,sans-serif;
+  overflow:hidden;
+  position:relative;
+}
+.kcore-v3 *{box-sizing:border-box}
+.kcore-wrap{max-width:1220px;margin:auto;padding:0 24px}
+
+.kcore-v3::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 15%,rgba(0,119,255,.28),transparent 24%),
+    radial-gradient(circle at 80% 20%,rgba(0,255,255,.15),transparent 25%),
+    radial-gradient(circle at 50% 85%,rgba(0,68,255,.25),transparent 35%);
+  animation:bgPulse 8s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes bgPulse{
+  from{opacity:.45;transform:scale(1)}
+  to{opacity:.9;transform:scale(1.08)}
+}
+
+.kcore-nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(2,5,15,.88);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(0,174,255,.35);
+}
+.kcore-nav-inner{
+  height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.kcore-logo{
+  font-weight:1000;
+  letter-spacing:3px;
+  font-size:24px;
+  line-height:.9;
+  color:white;
+  text-shadow:0 0 18px #009dff,0 0 35px rgba(0,132,255,.6);
+}
+.kcore-links a{
+  color:#dfeeff;
+  text-decoration:none;
+  margin-left:25px;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.kcore-links a:hover{color:#00c8ff}
+
+.kcore-hero{
+  position:relative;
+  min-height:760px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:80px 20px;
+  background:
+    linear-gradient(rgba(0,0,0,.15),rgba(2,4,12,.95)),
+    url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1900&q=80");
+  background-size:cover;
+  background-position:center;
+  overflow:hidden;
+  isolation:isolate;
+}
+.kcore-hero::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  background:
+    radial-gradient(circle at 20% 50%,rgba(0,180,255,.18),transparent 35%),
+    radial-gradient(circle at 70% 40%,rgba(0,102,255,.22),transparent 40%),
+    radial-gradient(circle at 50% 80%,rgba(255,255,255,.08),transparent 35%);
+  filter:blur(35px);
+  animation:fogMove 12s ease-in-out infinite alternate;
+  z-index:-2;
+}
+@keyframes fogMove{
+  from{transform:translateX(-60px) translateY(20px) scale(1)}
+  to{transform:translateX(70px) translateY(-30px) scale(1.15)}
+}
+.kcore-hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:100% 6px;
+  opacity:.18;
+  animation:scan 7s linear infinite;
+  pointer-events:none;
+}
+@keyframes scan{
+  from{background-position:0 0}
+  to{background-position:0 120px}
+}
+.kcore-particles{
+  position:absolute;
+  inset:-40%;
+  background-image:radial-gradient(circle,rgba(0,220,255,.9) 1px,transparent 2px);
+  background-size:58px 58px;
+  animation:particles 18s linear infinite;
+  opacity:.25;
+}
+@keyframes particles{
+  from{transform:translateY(0)}
+  to{transform:translateY(-220px)}
+}
+.energy-ring{
+  position:absolute;
+  width:520px;
+  height:520px;
+  border-radius:50%;
+  border:1px solid rgba(0,200,255,.35);
+  box-shadow:0 0 60px rgba(0,132,255,.45), inset 0 0 70px rgba(0,132,255,.28);
+  animation:ringSpin 14s linear infinite;
+}
+.energy-ring::before,
+.energy-ring::after{
+  content:"";
+  position:absolute;
+  inset:38px;
+  border-radius:50%;
+  border:1px dashed rgba(0,200,255,.45);
+}
+.energy-ring::after{
+  inset:80px;
+  border-style:solid;
+  opacity:.45;
+}
+@keyframes ringSpin{
+  from{transform:rotate(0deg) scale(1)}
+  to{transform:rotate(360deg) scale(1.04)}
+}
+
+.kcore-hero-content{
+  position:relative;
+  z-index:3;
+  max-width:930px;
+}
+.kcore-eyebrow{
+  font-size:24px;
+  letter-spacing:14px;
+  font-weight:1000;
+  color:#ddecff;
+}
+.kcore-hero h1{
+  margin:18px 0 0;
+  font-size:clamp(72px,12vw,160px);
+  line-height:.78;
+  font-weight:1000;
+  text-shadow:0 0 22px black,0 0 45px rgba(0,132,255,.75);
+}
+.kcore-hero h1 span{
+  display:block;
+  color:#0785ff;
+  font-style:italic;
+  text-shadow:0 0 28px #009dff,0 0 60px rgba(0,132,255,.9);
+}
+.kcore-hero h2{
+  margin:32px 0 12px;
+  font-size:25px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+}
+.kcore-hero p{
+  max-width:680px;
+  margin:0 auto 32px;
+  color:#d9e8ff;
+  font-size:18px;
+  line-height:1.65;
+}
+
+.kcore-btn{
+  display:inline-block;
+  margin:8px;
+  padding:16px 32px;
+  border-radius:8px;
+  background:linear-gradient(135deg,#005eff,#00c8ff);
+  color:white!important;
+  text-decoration:none;
+  text-transform:uppercase;
+  font-weight:1000;
+  font-size:13px;
+  letter-spacing:1px;
+  border:1px solid rgba(0,220,255,.9);
+  box-shadow:0 0 25px rgba(0,132,255,.55);
+  transition:.25s;
+}
+.kcore-btn:hover{
+  transform:translateY(-5px);
+  box-shadow:0 0 45px rgba(0,220,255,.85);
+}
+.kcore-btn.secondary{
+  background:rgba(0,0,0,.28);
+}
+
+.kcore-section{
+  position:relative;
+  z-index:2;
+  padding:76px 0;
+}
+.kcore-title{
+  text-align:center;
+  font-size:34px;
+  text-transform:uppercase;
+  letter-spacing:3px;
+  margin:0 0 42px;
+}
+.kcore-title span{color:#00b7ff}
+
+.kcore-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+}
+.kcore-card{
+  position:relative;
+  min-height:455px;
+  padding:28px;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(0,174,255,.5);
+  background:
+    linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.88)),
+    var(--img);
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  box-shadow:inset 0 0 70px rgba(0,0,0,.95),0 0 25px rgba(0,132,255,.18);
+  transition:.32s;
+}
+.kcore-card::before{
+  content:"";
+  position:absolute;
+  top:-70%;
+  left:-60%;
+  width:80%;
+  height:230%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+  transform:rotate(25deg);
+  transition:.55s;
+}
+.kcore-card:hover::before{left:120%}
+.kcore-card:hover{
+  transform:translateY(-12px) scale(1.02);
+  border-color:#00d5ff;
+  box-shadow:0 0 45px rgba(0,174,255,.6);
+}
+.kcore-card h3{
+  position:relative;
+  font-size:37px;
+  font-style:italic;
+  text-transform:uppercase;
+  margin:0 0 12px;
+}
+.kcore-card p{
+  position:relative;
+  color:#dce8ff;
+  font-size:14px;
+  line-height:1.55;
+}
+
+/* NEW FEATURED TWO GAME SECTION */
+.featured-two-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:28px;
+}
+.featured-two-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:18px;
+  background:rgba(5,17,35,.9);
+  border:1px solid rgba(0,174,255,.45);
+  box-shadow:0 0 35px rgba(0,132,255,.25);
+  transition:.3s;
+}
+.featured-two-card:hover{
+  transform:translateY(-10px);
+}
+.pinfall-card{
+  border-color:rgba(255,45,45,.8);
+  box-shadow:0 0 35px rgba(255,35,35,.35);
+}
+.comics-card{
+  border-color:rgba(0,174,255,.85);
+  box-shadow:0 0 35px rgba(0,132,255,.4);
+}
+.featured-two-img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+.featured-two-body{
+  padding:26px;
+}
+.featured-two-body h3{
+  margin:0 0 12px;
+  font-size:32px;
+  text-transform:uppercase;
+}
+.featured-two-body p{
+  color:#d5e0f5;
+  line-height:1.6;
+}
+.featured-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px;
+  color:#b8c7e8;
+  font-size:13px;
+  text-transform:uppercase;
+  margin:20px 0;
+}
+.featured-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.featured-buttons .kcore-btn{
+  width:100%;
+  text-align:center;
+}
+.red-btn{
+  background:linear-gradient(135deg,#b80000,#ff3030)!important;
+  border-color:#ff4545!important;
+  box-shadow:0 0 25px rgba(255,35,35,.55)!important;
+}
+.game-ribbon{
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:5;
+  padding:12px 26px;
+  font-size:13px;
+  font-weight:1000;
+  text-transform:uppercase;
+  color:white;
+  border-bottom-right-radius:16px;
+}
+.game-ribbon.red{
+  background:linear-gradient(135deg,#b80000,#ff3030);
+}
+.game-ribbon.blue{
+  background:linear-gradient(135deg,#005eff,#00c8ff);
+}
+
+.updates{
+  display:grid;
+  grid-template-columns:1fr 1.25fr;
+  gap:28px;
+}
+.update-list{
+  background:rgba(5,17,35,.86);
+  border:1px solid rgba(0,174,255,.35);
+  border-radius:14px;
+  overflow:hidden;
+}
+.update-item{
+  display:grid;
+  grid-template-columns:72px 1fr;
+  gap:15px;
+  padding:20px;
+  border-bottom:1px solid rgba(0,174,255,.2);
+}
+.date-box{
+  border:1px solid rgba(0,174,255,.7);
+  border-radius:8px;
+  text-align:center;
+  padding:8px;
+  font-weight:1000;
+}
+.date-box small{display:block;color:#b8c7e8}
+.update-item h3{margin:0 0 5px}
+.update-item p{margin:0;color:#b8c7e8;font-size:13px}
+.news-banner{
+  min-height:330px;
+  border-radius:14px;
+  border:1px solid rgba(0,174,255,.35);
+  background:
+    linear-gradient(rgba(0,0,0,.08),rgba(0,0,0,.8)),
+    url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80");
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding:30px;
+}
+
+.kcore-footer{
+  position:relative;
+  z-index:2;
+  border-top:1px solid rgba(0,174,255,.35);
+  padding:50px 0 24px;
+  background:#030916;
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1.4fr;
+  gap:35px;
+}
+.footer-grid h3{
+  margin-top:0;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.footer-grid a{
+  display:block;
+  color:#cbd9ff;
+  text-decoration:none;
+  margin:8px 0;
+}
+.footer-bottom{
+  text-align:center;
+  margin-top:30px;
+  color:#8fa3cc;
+  font-size:12px;
+}
+
+@media(max-width:900px){
+  .kcore-links{display:none}
+  .kcore-grid,
+  .featured-two-grid,
+  .updates,
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+  .kcore-card{min-height:350px}
+  .kcore-hero{min-height:680px}
+  .kcore-eyebrow{font-size:18px;letter-spacing:7px}
+  .energy-ring{width:360px;height:360px}
+  .featured-two-img{height:280px}
+  .featured-buttons{grid-template-columns:1fr}
+}
+</style>
+
+<nav class="kcore-nav">
+  <div class="kcore-wrap kcore-nav-inner">
+    <div class="kcore-logo">K-CORE<br>MUGEN</div>
+    <div class="kcore-links">
+      <a href="#">Home</a>
+      <a href="/games.html">Games</a>
+      <a href="#">Characters</a>
+      <a href="#">Stages</a>
+      <a href="#">Screenpacks</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<section class="kcore-hero">
+  <div class="kcore-particles"></div>
+  <div class="energy-ring"></div>
+
+  <div class="kcore-hero-content">
+    <div class="kcore-eyebrow">WELCOME TO</div>
+    <h1>K-CORE <span>MUGEN</span></h1>
+    <h2>The Ultimate MUGEN Experience</h2>
+    <p>Discover MUGEN games, characters, stages, screenpacks, and everything you need to build your dream roster.</p>
+    <a class="kcore-btn" href="/games.html">Browse Games</a>
+    <a class="kcore-btn secondary" href="#">Latest Downloads</a>
+  </div>
+</section>
+
+<section class="kcore-section">
+  <div class="kcore-wrap">
+    <h2 class="kcore-title">Explore <span>K-Core</span> MUGEN</h2>
+
+    <div class="kcore-grid">
+      <div class="kcore-card" style="--img:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80')">
+        <h3>Games</h3>
+        <p>Browse full MUGEN games featuring anime, comics, fighting games, and custom fan-made experiences.</p>
+        <a class="kcore-btn" href="/games.html">Browse Games</a>
+      </div>
+
+      <div class="kcore-card" style="--img:url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80')">
+        <h3>Characters</h3>
+        <p>Discover downloadable characters to customize your ultimate roster.</p>
+        <a class="kcore-btn" href="#">View Characters</a>
+      </div>
+
+      <div class="kcore-card" style="--img:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80')">
+        <h3>Stages</h3>
+        <p>Download high-quality stages that make every fight feel cinematic.</p>
+        <a class="kcore-btn" href="#">Explore Stages</a>
+      </div>
+
+      <div class="kcore-card" style="--img:url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80')">
+        <h3>Screenpacks</h3>
+        <p>Customize menus, lifebars, music, and the full look of your MUGEN build.</p>
+        <a class="kcore-btn" href="#">Customize</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="kcore-section">
+  <div class="kcore-wrap">
+    <h2 class="kcore-title">Featured <span>This Week</span></h2>
+    <p style="text-align:center;color:#b8c7e8;margin-top:-25px;margin-bottom:35px;">
+      Check out the newest and recommended games from the K-Core MUGEN collection.
+    </p>
+
+    <div class="featured-two-grid">
+
+      <div class="featured-two-card pinfall-card">
+        <div class="game-ribbon red">★ Play Now </div>
+        <img src="./assets/pinfallbrawl.png"
+     alt="Pinfall Brawl"
+     style="width:100%;height:360px;object-fit:cover;display:block;">
+
+        <div class="featured-two-body">
+          <h3>Pinfall Brawl</h3>
+          <p>Step into the ring and settle it all. Pin your opponent and claim victory in the ultimate MUGEN wrestling experience.</p>
+
+          <div class="featured-meta">
+            <span>🎮 Wrestling / Arcade</span>
+            <span>👥 1–4 Players</span>
+            <span>⭐ 5.0</span>
+            <span>Version 1.0</span>
+          </div>
+
+          <div class="featured-buttons">
+            <a class="kcore-btn red-btn" href="#">Download Now</a>
+            <a class="kcore-btn secondary" href="#">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="featured-two-card comics-card">
+        <div class="game-ribbon blue">★ New Release </div>
+        <img src="./assets/comicsuniversus.png"
+     alt="Comics Universus Demo"
+     class="featured-two-img">
+
+        <div class="featured-two-body">
+          <h3>Comics Universus Out Now </h3>
+          <p>A fast-paced comic crossover fighter. Try the demo and experience the universe collide.</p>
+
+          <div class="featured-meta">
+            <span>🎮 Fighting</span>
+            <span>👥 1–2 Players</span>
+            <span>⭐ 5.0</span>
+            <span>Demo Version</span>
+          </div>
+
+          <div class="featured-buttons">
+            <a class="kcore-btn" href="#">Download Demo</a>
+            <a class="kcore-btn secondary" href="#">View Details</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="kcore-section">
+  <div class="kcore-wrap">
+    <h2 class="kcore-title">Latest <span>Updates</span></h2>
+
+    <div class="updates">
+      <div class="update-list">
+        <div class="update-item">
+          <div class="date-box"><small>MAY</small>15</div>
+          <div>
+            <h3>Pinfall Brawl Added</h3>
+            <p>Pinfall Brawl is now featured on K-Core MUGEN.</p>
+          </div>
+        </div>
+
+        <div class="update-item">
+          <div class="date-box"><small>MAY</small>12</div>
+          <div>
+            <h3>Comics Universus Demo</h3>
+            <p>The demo has been added to the featured collection.</p>
+          </div>
+        </div>
+
+        <div class="update-item">
+          <div class="date-box"><small>MAY</small>08</div>
+          <div>
+            <h3>Website Update</h3>
+            <p>K-Core MUGEN is getting a full premium redesign.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-banner">
+        <a class="kcore-btn" href="#">Read More News</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="kcore-footer">
+  <div class="kcore-wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="kcore-logo">K-CORE<br>MUGEN</div>
+        <p>Your ultimate destination for MUGEN games, characters, stages, screenpacks, and more.</p>
+      </div>
+
+      <div>
+        <h3>Quick Links</h3>
+        <a href="/games.html">Games</a>
+        <a href="#">Characters</a>
+        <a href="#">Stages</a>
+        <a href="#">Screenpacks</a>
+      </div>
+
+      <div>
+        <h3>Join The Community</h3>
+        <p>Stay updated and connect with other MUGEN fans.</p>
+        <a class="kcore-btn" href="#">Join Discord</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 K-Core MUGEN. All rights reserved.
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>
