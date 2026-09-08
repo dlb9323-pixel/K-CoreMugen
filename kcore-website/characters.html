@@ -1,12 +1,567 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K-Core MUGEN - Games</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Characters | K-Core MUGEN</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:#020811;
+      color:white;
+      min-height:100vh;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    /* NAVBAR */
+    .navbar{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:18px 6%;
+      background:rgba(2,8,17,.96);
+      border-bottom:1px solid #0a7ec7;
+    }
+
+    .logo{
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:1px;
+      color:white;
+    }
+
+    .logo span{
+      color:#00aaff;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:28px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .nav-links a{
+      font-size:14px;
+      font-weight:bold;
+      text-transform:uppercase;
+      transition:.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active{
+      color:#00aaff;
+      text-shadow:0 0 12px #00aaff;
+    }
+
+    /* HERO */
+    .hero{
+      text-align:center;
+      padding:85px 20px 55px;
+      background:
+        radial-gradient(circle at center, rgba(0,119,255,.18), transparent 55%),
+        linear-gradient(180deg, #071321 0%, #020811 100%);
+      border-bottom:1px solid #0786d1;
+    }
+
+    .hero h1{
+      font-size:64px;
+      letter-spacing:3px;
+      font-style:italic;
+      text-shadow:0 0 18px rgba(0,170,255,.75);
+    }
+
+    .hero p{
+      margin-top:15px;
+      color:#c2d4e4;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      font-size:14px;
+    }
+
+    /* MAIN */
+    .container{
+      width:min(1180px, 92%);
+      margin:0 auto;
+      padding:45px 0 70px;
+    }
+
+    .search-box{
+      width:min(650px, 100%);
+      margin:0 auto 20px;
+    }
+
+    .search-box input{
+      width:100%;
+      padding:16px 20px;
+      border-radius:8px;
+      border:1px solid #0786d1;
+      background:#07111c;
+      color:white;
+      outline:none;
+      font-size:16px;
+    }
+
+    .search-box input:focus{
+      box-shadow:0 0 12px rgba(0,170,255,.45);
+    }
+
+    .filters{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:40px;
+    }
+
+    .filter-btn{
+      background:#05101a;
+      color:#00aaff;
+      border:1px solid #0786d1;
+      padding:11px 22px;
+      border-radius:7px;
+      cursor:pointer;
+      font-weight:bold;
+      text-transform:uppercase;
+      transition:.2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active{
+      background:#0078c9;
+      color:white;
+      box-shadow:0 0 16px rgba(0,170,255,.55);
+    }
+
+    /* CHARACTER GRID */
+    .character-grid{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:20px;
+    }
+
+    .character-card{
+      background:#06101a;
+      border:1px solid #0786d1;
+      border-radius:8px;
+      padding:10px;
+      transition:.25s;
+    }
+
+    .character-card:hover{
+      transform:translateY(-5px);
+      box-shadow:0 0 22px rgba(0,170,255,.25);
+    }
+
+    .character-image{
+      width:100%;
+      height:225px;
+      background:
+        linear-gradient(135deg, rgba(0,85,150,.16), rgba(0,0,0,.05)),
+        #040b12;
+      border:1px solid #18374c;
+      border-radius:6px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#315a79;
+      font-weight:bold;
+      text-align:center;
+      margin-bottom:14px;
+      overflow:hidden;
+    }
+
+    .character-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .character-card h3{
+      margin-bottom:5px;
+      font-size:18px;
+    }
+
+    .character-info{
+      color:#b8c5d1;
+      font-size:14px;
+      line-height:1.6;
+      margin-bottom:14px;
+    }
+
+    .card-btn{
+      width:100%;
+      display:block;
+      text-align:center;
+      padding:10px;
+      margin-top:8px;
+      border-radius:5px;
+      border:1px solid #00aaff;
+      font-size:13px;
+      font-weight:bold;
+      text-transform:uppercase;
+      transition:.2s;
+    }
+
+    .details-btn{
+      color:#00aaff;
+      background:#04101a;
+    }
+
+    .details-btn:hover{
+      background:#00aaff;
+      color:white;
+    }
+
+    .download-btn{
+      color:white;
+      border-color:#8ea3b4;
+      background:#08131d;
+    }
+
+    .download-btn:hover{
+      border-color:white;
+      background:#122434;
+    }
+
+    .no-results{
+      grid-column:1 / -1;
+      text-align:center;
+      padding:50px;
+      color:#8aa1b5;
+      display:none;
+    }
+
+    /* FOOTER */
+    footer{
+      border-top:1px solid #075c91;
+      padding:35px 6%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:25px;
+      flex-wrap:wrap;
+      background:#02070d;
+    }
+
+    .footer-brand{
+      font-size:24px;
+      font-weight:900;
+    }
+
+    .footer-brand span{
+      color:#00aaff;
+    }
+
+    .footer-links{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+      font-size:13px;
+    }
+
+    .footer-links a:hover{
+      color:#00aaff;
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:1000px){
+      .character-grid{
+        grid-template-columns:repeat(2, 1fr);
+      }
+    }
+
+    @media(max-width:700px){
+      .navbar{
+        flex-direction:column;
+        gap:18px;
+      }
+
+      .nav-links{
+        justify-content:center;
+        gap:15px;
+      }
+
+      .hero h1{
+        font-size:42px;
+      }
+
+      .character-grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<h1>Characters</h1>
-<p>Replace this file with your custom Games page HTML.</p>
+
+  <header class="navbar">
+    <a href="index.html" class="logo">
+      K-CORE <span>MUGEN</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="games.html">Games</a>
+      <a href="characters.html" class="active">Characters</a>
+      <a href="stages.html">Stages</a>
+      <a href="screenpacks.html">Screenpacks</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>CHARACTERS</h1>
+    <p>Browse, discover, and download MUGEN fighters.</p>
+  </section>
+
+  <main class="container">
+
+    <div class="search-box">
+      <input
+        type="text"
+        id="characterSearch"
+        placeholder="Search characters..."
+      >
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="marvel">Marvel</button>
+      <button class="filter-btn" data-filter="dc">DC</button>
+      <button class="filter-btn" data-filter="anime">Anime</button>
+      <button class="filter-btn" data-filter="games">Games</button>
+      <button class="filter-btn" data-filter="original">Original</button>
+      <button class="filter-btn" data-filter="other">Other</button>
+    </div>
+
+    <section class="character-grid" id="characterGrid">
+
+      <!-- CHARACTER CARD 1 -->
+      <article class="character-card" data-name="character one" data-category="marvel">
+        <div class="character-image">
+          CHARACTER IMAGE HERE
+        </div>
+
+        <h3>Character Name</h3>
+
+        <div class="character-info">
+          <div>Universe: Marvel</div>
+          <div>Creator: Creator Name</div>
+          <div>Version: 1.0</div>
+        </div>
+
+        <a class="card-btn details-btn" href="#">
+          View Details
+        </a>
+
+        <a class="card-btn download-btn" href="#">
+          ↓ Download
+        </a>
+      </article>
+
+      <!-- CHARACTER CARD 2 -->
+      <article class="character-card" data-name="character two" data-category="dc">
+        <div class="character-image">
+          CHARACTER IMAGE HERE
+        </div>
+
+        <h3>Character Name</h3>
+
+        <div class="character-info">
+          <div>Universe: DC</div>
+          <div>Creator: Creator Name</div>
+          <div>Version: 1.0</div>
+        </div>
+
+        <a class="card-btn details-btn" href="#">
+          View Details
+        </a>
+
+        <a class="card-btn download-btn" href="#">
+          ↓ Download
+        </a>
+      </article>
+
+      <!-- CHARACTER CARD 3 -->
+      <article class="character-card" data-name="character three" data-category="anime">
+        <div class="character-image">
+          CHARACTER IMAGE HERE
+        </div>
+
+        <h3>Character Name</h3>
+
+        <div class="character-info">
+          <div>Universe: Anime</div>
+          <div>Creator: Creator Name</div>
+          <div>Version: 1.0</div>
+        </div>
+
+        <a class="card-btn details-btn" href="#">
+          View Details
+        </a>
+
+        <a class="card-btn download-btn" href="#">
+          ↓ Download
+        </a>
+      </article>
+
+      <!-- CHARACTER CARD 4 -->
+      <article class="character-card" data-name="character four" data-category="games">
+        <div class="character-image">
+          CHARACTER IMAGE HERE
+        </div>
+
+        <h3>Character Name</h3>
+
+        <div class="character-info">
+          <div>Universe: Games</div>
+          <div>Creator: Creator Name</div>
+          <div>Version: 1.0</div>
+        </div>
+
+        <a class="card-btn details-btn" href="#">
+          View Details
+        </a>
+
+        <a class="card-btn download-btn" href="#">
+          ↓ Download
+        </a>
+      </article>
+
+      <!-- CHARACTER CARD 5 -->
+      <article class="character-card" data-name="character five" data-category="original">
+        <div class="character-image">
+          CHARACTER IMAGE HERE
+        </div>
+
+        <h3>Character Name</h3>
+
+        <div class="character-info">
+          <div>Universe: Original</div>
+          <div>Creator: Creator Name</div>
+          <div>Version: 1.0</div>
+        </div>
+
+        <a class="card-btn details-btn" href="#">
+          View Details
+        </a>
+
+        <a class="card-btn download-btn" href="#">
+          ↓ Download
+        </a>
+      </article>
+
+      <!-- CHARACTER CARD 6 -->
+      <article class="character-card" data-name="character six" data-category="other">
+        <div class="character-image">
+          CHARACTER IMAGE HERE
+        </div>
+
+        <h3>Character Name</h3>
+
+        <div class="character-info">
+          <div>Universe: Other</div>
+          <div>Creator: Creator Name</div>
+          <div>Version: 1.0</div>
+        </div>
+
+        <a class="card-btn details-btn" href="#">
+          View Details
+        </a>
+
+        <a class="card-btn download-btn" href="#">
+          ↓ Download
+        </a>
+      </article>
+
+      <div class="no-results" id="noResults">
+        No characters found.
+      </div>
+
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand">
+      K-CORE <span>MUGEN</span>
+    </div>
+
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="games.html">Games</a>
+      <a href="characters.html">Characters</a>
+      <a href="stages.html">Stages</a>
+      <a href="screenpacks.html">Screenpacks</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const searchInput = document.getElementById("characterSearch");
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const cards = document.querySelectorAll(".character-card");
+    const noResults = document.getElementById("noResults");
+
+    let currentFilter = "all";
+
+    function updateCharacters(){
+      const searchValue = searchInput.value.toLowerCase();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const name = card.dataset.name.toLowerCase();
+        const category = card.dataset.category.toLowerCase();
+
+        const matchesSearch = name.includes(searchValue);
+        const matchesFilter =
+          currentFilter === "all" ||
+          category === currentFilter;
+
+        if(matchesSearch && matchesFilter){
+          card.style.display = "block";
+          visibleCount++;
+        }else{
+          card.style.display = "none";
+        }
+      });
+
+      noResults.style.display =
+        visibleCount === 0 ? "block" : "none";
+    }
+
+    searchInput.addEventListener("input", updateCharacters);
+
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+
+        filterButtons.forEach(btn =>
+          btn.classList.remove("active")
+        );
+
+        button.classList.add("active");
+
+        currentFilter = button.dataset.filter;
+
+        updateCharacters();
+      });
+    });
+  </script>
+
 </body>
 </html>
