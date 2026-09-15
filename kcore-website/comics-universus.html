@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Comics Universus | K-Core MUGEN</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at 50% 20%, #06215a 0%, #020b1c 35%, #010611 70%);
+    color: white;
+    min-height: 100vh;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    height: 76px;
+    background: #020817;
+    border-bottom: 1px solid #079cff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 25px;
+    line-height: .82;
+    letter-spacing: 2px;
+    text-shadow: 0 0 14px #008cff;
+}
+
+.logo span {
+    color: #00aaff;
+}
+
+nav {
+    display: flex;
+    gap: 38px;
+}
+
+nav a {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    transition: .2s;
+}
+
+nav a:hover,
+nav a.active {
+    color: #00aaff;
+}
+
+/* =========================
+   MAIN PAGE
+========================= */
+
+.page {
+    width: min(1200px, 94%);
+    margin: auto;
+}
+
+.breadcrumbs {
+    padding: 24px 0;
+    color: #b8c8df;
+    font-size: 14px;
+}
+
+.breadcrumbs span {
+    color: #00aaff;
+    margin: 0 10px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    width: 100%;
+    height: 330px;
+    border: 2px solid #008cff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(0, 140, 255, .25);
+    position: relative;
+    background: #041126;
+}
+
+.hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(1, 7, 20, .45),
+        transparent 50%
+    );
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.game-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 22px;
+    margin-top: 26px;
+}
+
+.panel {
+    border: 1px solid #008cff;
+    background: linear-gradient(145deg, #031126, #020a18);
+    box-shadow: 0 0 18px rgba(0, 128, 255, .12);
+}
+
+.panel-title {
+    background: linear-gradient(90deg, #073a78, #04152f);
+    border-bottom: 1px solid #008cff;
+    padding: 14px 22px;
+    font-size: 21px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.about {
+    min-height: 330px;
+}
+
+.about-content {
+    padding: 25px;
+    color: #c7d4e8;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+.info {
+    padding: 10px 22px 18px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid #12335c;
+    padding: 13px 0;
+    font-size: 13px;
+}
+
+.info-label {
+    font-weight: 800;
+    color: #d9e8ff;
+    letter-spacing: .5px;
+}
+
+.info-value {
+    color: #8fcfff;
+    text-align: right;
+}
+
+/* =========================
+   DOWNLOAD
+========================= */
+
+.download {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    margin-top: 20px;
+    border: 2px solid #00aaff;
+    background: linear-gradient(135deg, #06336d, #005db8);
+    box-shadow: 0 0 22px rgba(0, 166, 255, .45);
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    transition: .2s;
+}
+
+.download:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #07488f, #008cff);
+    box-shadow: 0 0 32px rgba(0, 166, 255, .7);
+}
+
+/* =========================
+   SCREENSHOTS
+========================= */
+
+.section {
+    margin-top: 28px;
+}
+
+.screenshot-container {
+    padding: 26px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.screenshot {
+    height: 155px;
+    border: 1px solid #008cff;
+    background: #06142c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4773a5;
+    overflow: hidden;
+}
+
+.screenshot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =========================
+   FEATURES
+========================= */
+
+.features {
+    min-height: 210px;
+    padding: 25px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.feature {
+    padding: 20px;
+    background: #06142b;
+    border: 1px solid #12457b;
+}
+
+.feature h3 {
+    color: #00aaff;
+    margin-bottom: 9px;
+}
+
+.feature p {
+    color: #b7c7dd;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back {
+    display: inline-block;
+    margin: 28px 0 50px;
+    padding: 13px 28px;
+    border: 1px solid #00aaff;
+    background: #052044;
+    font-size: 13px;
+    font-weight: 800;
+    transition: .2s;
+}
+
+.back:hover {
+    background: #007bd4;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    border-top: 1px solid #008cff;
+    background: #020817;
+    padding: 45px 0 20px;
+}
+
+.footer-grid {
+    width: min(1200px, 94%);
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1.3fr;
+    gap: 50px;
+}
+
+.footer-logo {
+    font-size: 23px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: .85;
+}
+
+.footer-logo span {
+    color: #00aaff;
+}
+
+footer h3 {
+    font-size: 14px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+footer p,
+footer a {
+    color: #b6c4d8;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.discord {
+    display: block;
+    margin-top: 15px;
+    padding: 13px 20px;
+    text-align: center;
+    background: linear-gradient(90deg, #007cff, #00b9ff);
+    font-weight: 800;
+    color: white;
+    border-radius: 4px;
+}
+
+.copyright {
+    text-align: center;
+    color: #7890ad;
+    font-size: 11px;
+    padding-top: 35px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    header {
+        height: auto;
+        padding: 18px;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    nav {
+        gap: 14px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero {
+        height: 220px;
+    }
+
+    .game-content {
+        grid-template-columns: 1fr;
+    }
+
+    .screenshot-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+    <a href="index.html" class="logo">
+        K-CORE<br>
+        <span>MUGEN</span>
+    </a>
+
+    <nav>
+        <a href="index.html">HOME</a>
+        <a href="games.html" class="active">GAMES</a>
+        <a href="characters.html">CHARACTERS</a>
+        <a href="stages.html">STAGES</a>
+        <a href="screenpacks.html">SCREENPACKS</a>
+        <a href="contact.html">CONTACT</a>
+    </nav>
+
+</header>
+
+
+<main class="page">
+
+    <!-- BREADCRUMBS -->
+
+    <div class="breadcrumbs">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="games.html">Games</a>
+        <span>›</span>
+        Comics Universus
+    </div>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+        <img
+            src="./assets/comicsuniversus.png"
+            alt="Comics Universus">
+    </section>
+
+
+    <!-- ABOUT + INFORMATION -->
+
+    <section class="game-content">
+
+        <div class="panel about">
+
+            <div class="panel-title">
+                About The Game
+            </div>
+
+            <div class="about-content">
+
+                <p>
+                    Comics Universus brings a massive comic-inspired
+                    fighting experience to K-Core MUGEN.
+                </p>
+
+                <br>
+
+                <p>
+                    Battle across different universes, discover a growing
+                    roster of fighters, and experience fast-paced MUGEN
+                    combat built for fans of comic book battles.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    Game Information
+                </div>
+
+                <div class="info">
+
+                    <div class="info-row">
+                        <span class="info-label">STATUS:</span>
+                        <span class="info-value">Available</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">GENRE:</span>
+                        <span class="info-value">Fighting</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">ENGINE:</span>
+                        <span class="info-value">M.U.G.E.N</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">DEVELOPER:</span>
+                        <span class="info-value">K-Core MUGEN</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">PLATFORM:</span>
+                        <span class="info-value">Windows</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">VERSION:</span>
+                        <span class="info-value">1.0</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PUT YOUR EXISTING COMICS DOWNLOAD LINK HERE -->
+
+            <a
+                class="download"
+                href="#"
+                target="_blank">
+                ↓ &nbsp; DOWNLOAD NOW
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- SCREENSHOTS -->
+
+    <section class="section panel">
+
+        <div class="panel-title">
+            Screenshots
+        </div>
+
+        <div class="screenshot-container">
+
+            <div class="screenshot">
+                SCREENSHOT 1
+            </div>
+
+            <div class="screenshot">
+                SCREENSHOT 2
+            </div>
+
+            <div class="screenshot">
+                SCREENSHOT 3
+            </div>
+
+            <div class="screenshot">
+                SCREENSHOT 4
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+
+    <section class="section panel">
+
+        <div class="panel-title">
+            Features
+        </div>
+
+        <div class="features">
+
+            <div class="feature-grid">
+
+                <div class="feature">
+                    <h3>Large Roster</h3>
+                    <p>
+                        Fight with a collection of characters from
+                        across the Comics Universus.
+                    </p>
+                </div>
+
+                <div class="feature">
+                    <h3>Fast-Paced Battles</h3>
+                    <p>
+                        Classic MUGEN fighting with quick,
+                        action-heavy matches.
+                    </p>
+                </div>
+
+                <div class="feature">
+                    <h3>Multiple Stages</h3>
+                    <p>
+                        Battle across environments inspired by
+                        different worlds and universes.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <a href="games.html" class="back">
+        ← BACK TO GAMES
+    </a>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="footer-grid">
+
+        <div>
+
+            <div class="footer-logo">
+                K-CORE<br>
+                <span>MUGEN</span>
+            </div>
+
+            <p style="margin-top:18px;">
+                Your ultimate destination for MUGEN games,
+                characters, stages, screenpacks, and more.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>QUICK LINKS</h3>
+
+            <div class="footer-links">
+                <a href="games.html">Games</a>
+                <a href="characters.html">Characters</a>
+                <a href="stages.html">Stages</a>
+                <a href="screenpacks.html">Screenpacks</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <h3>JOIN THE COMMUNITY</h3>
+
+            <p>
+                Stay updated and connect with other MUGEN fans.
+            </p>
+
+            <a href="#" class="discord">
+                JOIN DISCORD
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+        © 2026 K-Core MUGEN. All rights reserved.
+    </div>
+
+</footer>
+
+</body>
+</html>
